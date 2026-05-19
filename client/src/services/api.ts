@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://smart-leads-crm-backend.onrender.com/api",
+  baseURL: import.meta.env.VITE_API_URL + "/api",
 });
 
 /*
@@ -13,15 +13,13 @@ Automatically attaches JWT token
 
 API.interceptors.request.use(
   (config) => {
+    const user = localStorage.getItem("user");
 
-    const token =
-      localStorage.getItem("token");
-
-    if (token) {
+    if (user) {
+      const parsedUser = JSON.parse(user);
 
       config.headers.Authorization =
-        `Bearer ${token}`;
-
+        `Bearer ${parsedUser.token}`;
     }
 
     return config;
@@ -51,7 +49,6 @@ API.interceptors.response.use(
     ) {
 
       localStorage.removeItem("token");
-
       localStorage.removeItem("user");
 
       window.location.href = "/login";
