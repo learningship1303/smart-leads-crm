@@ -233,6 +233,13 @@ DELETE /api/leads/:id
 * AI Lead Scoring
 
 ---
+#ScreenShots
+First Page:<img width="1912" height="1035" alt="image" src="https://github.com/user-attachments/assets/3c665474-ed18-47aa-908e-da53a919a090" />
+Register Page:<img width="1895" height="1030" alt="image" src="https://github.com/user-attachments/assets/50334b1c-19dc-4f3f-916a-c00c8dcddcbc" />
+
+Login Page:<img width="1907" height="1027" alt="image" src="https://github.com/user-attachments/assets/478e3c5a-b1f5-4eef-890b-2672e8178bda" />
+Dashboard:<img width="1910" height="1040" alt="image" src="https://github.com/user-attachments/assets/d94d8e82-da3e-4147-b00b-e230991ec29b" />
+
 
 # Author
 
