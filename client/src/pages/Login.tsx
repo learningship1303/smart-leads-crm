@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import axios from "axios";
-
 import toast from "react-hot-toast";
 
 import {
   useNavigate,
   Link,
 } from "react-router-dom";
+
+import API from "../services/api";
 
 function Login() {
 
@@ -62,8 +62,8 @@ function Login() {
 
       setLoading(true);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+      const res = await API.post(
+        "/auth/login",
         {
           email,
           password,
@@ -80,7 +80,11 @@ function Login() {
       localStorage.setItem(
         "user",
         JSON.stringify(
-          res.data.user
+          {
+            ...res.data.user,
+            token:
+              res.data.token,
+          }
         )
       );
 
@@ -89,7 +93,7 @@ function Login() {
       );
 
       // REDIRECT
-      navigate("/dashboard");
+      navigate("/");
 
     } catch (error: any) {
 

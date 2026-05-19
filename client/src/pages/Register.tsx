@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import axios from "axios";
-
 import toast from "react-hot-toast";
 
 import {
   useNavigate,
   Link,
 } from "react-router-dom";
+
+import API from "../services/api";
 
 function Register() {
 
@@ -106,8 +106,8 @@ function Register() {
 
       setLoading(true);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/auth/register",
+      const res = await API.post(
+        "/auth/register",
         {
           name,
           email,
@@ -126,7 +126,11 @@ function Register() {
       localStorage.setItem(
         "user",
         JSON.stringify(
-          res.data.user
+          {
+            ...res.data.user,
+            token:
+              res.data.token,
+          }
         )
       );
 
@@ -135,7 +139,7 @@ function Register() {
       );
 
       // REDIRECT
-      navigate("/dashboard");
+      navigate("/");
 
     } catch (error: any) {
 
