@@ -1,25 +1,20 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://smart-leads-crm-backend.onrender.com/api",
+  baseURL:
+    "https://smart-leads-crm-backend.onrender.com/api",
 });
-
-/*
-========================================
-REQUEST INTERCEPTOR
-Automatically attaches JWT token
-========================================
-*/
 
 API.interceptors.request.use(
   (config) => {
-    const user = localStorage.getItem("user");
 
-    if (user) {
-      const parsedUser = JSON.parse(user);
+    const token =
+      localStorage.getItem("token");
+
+    if (token) {
 
       config.headers.Authorization =
-        `Bearer ${parsedUser.token}`;
+        `Bearer ${token}`;
     }
 
     return config;
@@ -29,13 +24,6 @@ API.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
-/*
-========================================
-RESPONSE INTERCEPTOR
-Auto logout if token invalid
-========================================
-*/
 
 API.interceptors.response.use(
 
@@ -51,7 +39,8 @@ API.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
-      window.location.href = "/login";
+      window.location.href =
+        "/login";
     }
 
     return Promise.reject(error);
