@@ -32,12 +32,27 @@ function App() {
 
   const navigate = useNavigate();
 
-  // USER
-  const user = JSON.parse(
-    localStorage.getItem("user") || "{}"
-  );
+  // SAFE USER PARSE
+  let user = null;
 
-  const role = user?.role;
+  try {
+
+    user = JSON.parse(
+      localStorage.getItem("user") || "null"
+    );
+
+  } catch (error) {
+
+    console.log(
+      "Invalid user in localStorage"
+    );
+
+    localStorage.removeItem("user");
+
+  }
+
+  const role =
+    user?.role || "user";
 
   // STATES
   const [leads, setLeads] =
@@ -122,9 +137,7 @@ function App() {
   useEffect(() => {
 
     const token =
-      localStorage.getItem(
-        "token"
-      );
+      localStorage.getItem("token");
 
     if (!token) {
 
@@ -132,7 +145,7 @@ function App() {
 
     }
 
-  }, []);
+  }, [navigate]);
 
   // SEARCH DEBOUNCE
   useEffect(() => {
@@ -161,11 +174,11 @@ function App() {
         );
 
       setLeads(
-        res.data.leads
+        res.data.leads || []
       );
 
       setTotalPages(
-        res.data.totalPages
+        res.data.totalPages || 1
       );
 
     } catch (error) {
@@ -256,10 +269,12 @@ function App() {
 
     } catch (error: any) {
 
+      console.log(error);
+
       toast.error(
         error?.response?.data
           ?.message ||
-        "Create failed"
+          "Create failed"
       );
 
     } finally {
@@ -276,6 +291,18 @@ function App() {
     try {
 
       setLoading(true);
+
+      if (
+        !editingId
+      ) {
+
+        toast.error(
+          "No lead selected"
+        );
+
+        return;
+
+      }
 
       if (
         !name ||
@@ -324,10 +351,12 @@ function App() {
 
     } catch (error: any) {
 
+      console.log(error);
+
       toast.error(
         error?.response?.data
           ?.message ||
-        "Update failed"
+          "Update failed"
       );
 
     } finally {
@@ -365,6 +394,8 @@ function App() {
 
     } catch (error) {
 
+      console.log(error);
+
       toast.error(
         "Delete failed"
       );
@@ -383,19 +414,19 @@ function App() {
           const matchesSearch =
 
             lead.name
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(
                 debouncedSearch.toLowerCase()
               ) ||
 
             lead.email
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(
                 debouncedSearch.toLowerCase()
               ) ||
 
             lead.company
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(
                 debouncedSearch.toLowerCase()
               );
@@ -536,9 +567,11 @@ function App() {
 
         {/* FORM */}
         <h2 className="text-3xl font-bold text-purple-600 mt-12 mb-6">
+
           {editingId
             ? "Edit Lead"
             : "Manage Leads"}
+
         </h2>
 
         <LeadForm
