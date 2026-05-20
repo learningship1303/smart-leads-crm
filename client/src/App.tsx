@@ -259,7 +259,7 @@ function App() {
       toast.error(
         error?.response?.data
           ?.message ||
-          "Create failed"
+        "Create failed"
       );
 
     } finally {
@@ -327,7 +327,7 @@ function App() {
       toast.error(
         error?.response?.data
           ?.message ||
-          "Update failed"
+        "Update failed"
       );
 
     } finally {
@@ -403,16 +403,16 @@ function App() {
           const matchesStatus =
 
             filterStatus ===
-              "All" ||
+            "All" ||
             lead.status ===
-              filterStatus;
+            filterStatus;
 
           const matchesSource =
 
             filterSource ===
-              "All" ||
+            "All" ||
             lead.source ===
-              filterSource;
+            filterSource;
 
           return (
             matchesSearch &&
@@ -531,41 +531,32 @@ function App() {
 
         </div>
 
-        {/* SECTION TITLE */}
-        <h2 className="text-3xl font-bold text-blue-600 mb-6">
-          Lead Analytics
-        </h2>
-
         {/* CHARTS */}
         <LeadCharts leads={leads} />
 
         {/* FORM */}
-        {role === "admin" && (
+        <h2 className="text-3xl font-bold text-purple-600 mt-12 mb-6">
+          {editingId
+            ? "Edit Lead"
+            : "Manage Leads"}
+        </h2>
 
-          <>
-            <h2 className="text-3xl font-bold text-purple-600 mt-12 mb-6">
-              Manage Leads
-            </h2>
-
-            <LeadForm
-              name={name}
-              setName={setName}
-              email={email}
-              setEmail={setEmail}
-              company={company}
-              setCompany={setCompany}
-              status={status}
-              setStatus={setStatus}
-              source={source}
-              setSource={setSource}
-              editingId={editingId}
-              loading={loading}
-              createLead={createLead}
-              updateLead={updateLead}
-            />
-          </>
-
-        )}
+        <LeadForm
+          name={name}
+          setName={setName}
+          email={email}
+          setEmail={setEmail}
+          company={company}
+          setCompany={setCompany}
+          status={status}
+          setStatus={setStatus}
+          source={source}
+          setSource={setSource}
+          editingId={editingId}
+          loading={loading}
+          createLead={createLead}
+          updateLead={updateLead}
+        />
 
         {/* FILTERS */}
         <LeadFilters
